@@ -63,7 +63,7 @@ describe('GET/characters/id', function () {
     });
 
     it('Deve buscar o personagem pelo ID', function () {
-      cy.getCharacterById(id).then(function (response) {
+      cy.getCharacterById().then(function (response) {
         expect(response.status).to.eql(200);
         expect(response.body.alias).to.eql('Homem de Ferro');
         expect(response.body.active).to.eql(true);

@@ -72,8 +72,8 @@ describe('POST /characters', function () {
         failOnStatusCode: false
       }).then(function (response) {
         expect(response.status).to.equal(400);
+        expect(response.body.error).to.equal('Duplicate character');
       });
-      expect(response.body.error).to.equal('Duplicate character');
     });
   });
 });
