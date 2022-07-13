@@ -21,7 +21,6 @@ describe('GET/characters', function () {
   ];
 
   before(function () {
-    cy.bac2ThePast();
     cy.setToken();
     cy.populateCharacters(characters);
   });
@@ -45,11 +44,6 @@ describe('GET/characters', function () {
 });
 
 describe('GET/characters/id', function () {
-  before(function () {
-    cy.bac2ThePast();
-    cy.setToken();
-  });
-
   const tonyStark = {
     name: 'Tony Stark',
     alias: 'Homem de Ferro',
@@ -57,13 +51,17 @@ describe('GET/characters/id', function () {
     active: true
   };
 
+  before(function () {
+    cy.setToken();
+  });
+
   context('Quando tenho um personagem cadastrado', function () {
     before(function () {
-      // TODO
       cy.postCharacter(tonyStark).then(function (response) {
         Cypress.env('characterId', response.body.character_id);
       });
     });
+
     it('Deve buscar o personagem pelo ID', function () {
       cy.getCharacterById(id).then(function (response) {
         expect(response.status).to.eql(200);

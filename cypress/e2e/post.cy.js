@@ -1,18 +1,19 @@
 const cypress = require('cypress');
 
 describe('POST /characters', function () {
+  const character = {
+    name: 'Wanda Maximoff',
+    alias: 'Feiticeira Escarlate',
+    team: ['vingadores'],
+    active: true
+  };
+
   before(function () {
     cy.bac2ThePast();
     cy.setToken();
   });
 
   it('Deve cadastrar um personagem', function () {
-    const character = {
-      name: 'Wanda Maximoff',
-      alias: 'Feiticeira Escarlate',
-      team: ['vingadores'],
-      active: true
-    };
     cy.postCharacter(character).then(function (response) {
       expect(response.status).to.equal(201);
       // para aparecer no cypress run a resposta do body - id do character criado - requisito

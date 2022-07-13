@@ -1,11 +1,12 @@
-// Para configurar o token de autorização
+// To configure the authorization token
 Cypress.Commands.add('setToken', function () {
-  cy.api({
+  cy.request({
     method: 'POST',
     url: '/sessions',
+    failOnStatusCode: false,
     body: {
-      email: 'denise@qacademy.io',
-      password: 'qa-cademy'
+      email: Cypress.env('email'),
+      password: Cypress.env('password')
     }
   }).then(function (response) {
     expect(response.status).to.equal(200);
@@ -13,91 +14,94 @@ Cypress.Commands.add('setToken', function () {
   });
 });
 
-// Para deletar os dados existentes
+// To delete existing data
 Cypress.Commands.add('back2ThePast', function () {
-  cy.api({
+  cy.request({
     method: 'DELETE',
-    url: '/back2thepast/629e0c3762354f001624edc6'
+    url: '/back2thepast/629e0c3762354f001624edc6',
+    failOnStatusCode: false,
+    headers: {
+      Authorization: Cypress.env('token')
+    }
   }).then(function (response) {
     expect(response.status).to.equal(200);
   });
 });
 
-// POST Requisição que testar cadastro de personagens
-Cypress.Commands.add('postCharacter', function (payload) {
-  cy.api({
+// POST Request that test character registration
+Cypress.Commands.add('postCharacter', function (character) {
+  cy.request({
     method: 'POST',
     url: '/characters',
+    failOnStatusCode: false,
     body: character,
     headers: {
       Authorization: Cypress.env('token')
-    },
-    failOnStatusCode: false
+    }
   }).then(function (response) {
     return response;
   });
 });
 
-// GET Requisição que testa obtenção de personagens
-Cypress.Commands.add('getCharacters', function (payload) {
-  cy.api({
+// GET Request that tests getting characters
+Cypress.Commands.add('getCharacters', function (characterId) {
+  cy.request({
     method: 'GET',
     url: '/characters',
-    body: character,
+    failOnStatusCode: false,
     headers: {
       Authorization: Cypress.env('token')
-    },
-    failOnStatusCode: false
+    }
   }).then(function (response) {
     return response;
   });
 });
 
-// Automação para populacionar com personagens
+// Automation to populate with characters
 Cypress.Commands.add('populateCharacters', function (characters) {
   characters.forEach(function (c) {
     cy.postCharacter(c);
   });
 });
 
-// GET Requaisição que busca personagem por nome
+// GET Requalification that fetches character by name
 Cypress.Commands.add('searchCharacters', function (characterName) {
-  cy.api({
+  cy.request({
     method: 'GET',
     url: '/characters',
+    failOnStatusCode: false,
     qs: { name: characterName },
     headers: {
       Authorization: Cypress.env('token')
-    },
-    failOnStatusCode: false
+    }
   }).then(function (response) {
     return response;
   });
 });
 
-// GET Requisição que testa obtenção de personagens
+// GET Request that tests getting characters
 Cypress.Commands.add('getCharacterById', function (characterId) {
-  cy.api({
+  cy.request({
     method: 'GET',
-    url: '/characters/' + characterId,
+    url: `/characters/${characterId}`,
+    failOnStatusCode: false,
     headers: {
       Authorization: Cypress.env('token')
-    },
-    failOnStatusCode: false
+    }
   }).then(function (response) {
     return response;
   });
 });
 
-// DELETE Requisição que testa deleção de personagens
+// DELETE Request that tests character deletion
 Cypress.Commands.add('deleteCharacterById', function (characterId) {
-  cy.api({
+  cy.request({
     method: 'DELETE',
-    url: '/characters/' + characterId,
+    url: `/characters/${characterId}`,
+    failOnStatusCode: false,
     headers: {
       Authorization: Cypress.env('token')
-    },
-    failOnStatusCode: false
+    }
   }).then(function (response) {
     return response;
   });
