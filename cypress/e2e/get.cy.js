@@ -1,7 +1,4 @@
-function uid() {
-  return `${Date.now()}${Math.random()}`;
-}
-
+import { uid } from './../support/uid.js';
 const unexistentId = 'fooBar';
 
 describe('GET/characters', function () {
@@ -28,6 +25,7 @@ describe('GET/characters', function () {
 
   before(function () {
     cy.setToken();
+    cy.back2ThePast();
     cy.populateCharacters(characters);
   });
 

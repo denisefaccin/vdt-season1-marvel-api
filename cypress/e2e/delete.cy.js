@@ -1,8 +1,11 @@
+import { uid } from './../support/uid.js';
+
 describe('DELETE/characters/id', function () {
-  const tochaHumana = {
-    name: 'Jhonny Storm',
-    alias: 'Tocha Humana',
-    team: ['Quarteto Fantástico'],
+
+  const characterMock = {
+    name: uid(),
+    alias: uid(),
+    team: [uid()],
     active: true
   };
 
@@ -10,11 +13,12 @@ describe('DELETE/characters/id', function () {
 
   before(function () {
     cy.setToken();
+    cy.back2ThePast();
   });
 
   context('Quando tenho um personagem cadastrado', function () {
     before(function () {
-      cy.postCharacter(tochaHumana).then(function (response) {
+      cy.postCharacter(characterMock).then(function (response) {
         Cypress.env('characterId', response.body.character_id);
       });
     });

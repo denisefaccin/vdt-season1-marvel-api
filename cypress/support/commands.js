@@ -18,7 +18,7 @@ Cypress.Commands.add('setToken', function () {
 Cypress.Commands.add('back2ThePast', function () {
   cy.request({
     method: 'DELETE',
-    url: '/back2thepast/629e0c3762354f001624edc6',
+    url: `/back2thepast/${Cypress.env('collectionId')}`,
     failOnStatusCode: false,
     headers: {
       Authorization: Cypress.env('token')
