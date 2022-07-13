@@ -2,6 +2,7 @@ import { uid } from './../support/uid.js';
 
 describe('DELETE/characters/id', function () {
 
+
   const characterMock = {
     name: uid(),
     alias: uid(),
@@ -12,6 +13,7 @@ describe('DELETE/characters/id', function () {
   const unexistentId = 'fooBar';
 
   before(function () {
+    cy.log('aquiiiiiiiiiiiiiiiiiiiiiiiiiii');
     cy.setToken();
     cy.back2ThePast();
   });

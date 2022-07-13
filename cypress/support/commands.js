@@ -5,8 +5,8 @@ Cypress.Commands.add('setToken', function () {
     url: '/sessions',
     failOnStatusCode: false,
     body: {
-      email: Cypress.env('email'),
-      password: Cypress.env('password')
+      email: Cypress.env('EMAIL'),
+      password: Cypress.env('PASSWORD')
     }
   }).then(function (response) {
     expect(response.status).to.equal(200);
@@ -18,7 +18,7 @@ Cypress.Commands.add('setToken', function () {
 Cypress.Commands.add('back2ThePast', function () {
   cy.request({
     method: 'DELETE',
-    url: `/back2thepast/${Cypress.env('collectionId')}`,
+    url: `/back2thepast/${Cypress.env('COLLECTION')}`,
     failOnStatusCode: false,
     headers: {
       Authorization: Cypress.env('token')
