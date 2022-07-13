@@ -34,12 +34,4 @@ describe('DELETE/characters/id', function () {
       });
     });
   });
-
-  // dupla checagem se foi removido
-  after(function () {
-    const characterId = Cypress.env('characterId');
-    cy.getCharacterById(characterId).then(function (response) {
-      expect(response.status).to.eql(404);
-    });
-  });
 });

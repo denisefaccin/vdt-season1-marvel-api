@@ -1,21 +1,27 @@
+function uid() {
+  return `${Date.now()}${Math.random()}`;
+}
+
+const unexistentId = 'fooBar';
+
 describe('GET/characters', function () {
   const characters = [
     {
-      name: 'Charles Xavier',
-      alias: 'Professor X',
-      team: ['x-men'],
+      name: uid(),
+      alias: uid(),
+      team: [uid()],
       active: true
     },
     {
-      name: 'Logan',
-      alias: 'Wolverine',
-      team: ['vingadores'],
+      name: uid(),
+      alias: uid(),
+      team: [uid()],
       active: true
     },
     {
-      name: 'Peter Parker',
-      alias: 'Homem Aranha',
-      team: ['novos vingadores'],
+      name: uid(),
+      alias: uid(),
+      team: [uid()],
       active: true
     }
   ];
@@ -24,6 +30,7 @@ describe('GET/characters', function () {
     cy.setToken();
     cy.populateCharacters(characters);
   });
+
   it('Deve retornar uma lista de personagens', function () {
     cy.getCharacters().then(function (response) {
       expect(response.status).to.eql(200);
@@ -33,21 +40,21 @@ describe('GET/characters', function () {
   });
 
   it('Deve buscar personagem por nome', function () {
-    cy.getCharacters('Logan').then(function (response) {
+    cy.searchCharacters(characters[0].name).then(function (response) {
       expect(response.status).to.eql(200);
-      expect(response.body.length).to.eql(1);
-      expect(response.body[0].alias).to.eql('Wolverine');
-      expect(response.body[0].active).to.eql(true);
-      expect(response.body[0].time).to.eql('[x-men]');
+      expect(response.body.length).to.greaterThan(0);
+      expect(response.body[0].alias).to.eql(characters[0].alias);
+      expect(response.body[0].active).to.eql(characters[0].active);
+      expect(response.body[0].team).to.eql(characters[0].team);
     });
   });
 });
 
 describe('GET/characters/id', function () {
-  const tonyStark = {
-    name: 'Tony Stark',
-    alias: 'Homem de Ferro',
-    team: ['Vingadores'],
+  const characterMock = {
+    name: uid(),
+    alias: uid(),
+    team: [uid()],
     active: true
   };
 
@@ -57,25 +64,26 @@ describe('GET/characters/id', function () {
 
   context('Quando tenho um personagem cadastrado', function () {
     before(function () {
-      cy.postCharacter(tonyStark).then(function (response) {
+      cy.postCharacter(characterMock).then(function (response) {
         Cypress.env('characterId', response.body.character_id);
       });
     });
 
     it('Deve buscar o personagem pelo ID', function () {
-      cy.getCharacterById().then(function (response) {
+      const characterId = Cypress.env('characterId');
+      cy.getCharacterById(characterId).then(function (response) {
         expect(response.status).to.eql(200);
-        expect(response.body.alias).to.eql('Homem de Ferro');
-        expect(response.body.active).to.eql(true);
-        expect(response.body.time).to.eql('Vingadores');
+        expect(response.body.name).to.eql(characterMock.name);
+        expect(response.body.alias).to.eql(characterMock.alias);
+        expect(response.body.active).to.eql(characterMock.active);
+        expect(response.body.time).to.eql(characterMock.time);
       });
     });
   });
 
-  it('Deve retornar 404 ao buscar por ID não cadastrado', function () {
-    const id = '8r8t8686a68s868f868f';
-    cy.getCharacterById(id).then(function (response) {
-      expect(response.status).to.eql(404);
+  it('Deve retornar 400 ao buscar por ID não cadastrado', function () {
+    cy.getCharacterById(unexistentId).then(function (response) {
+      expect(response.status).to.eql(400);
     });
   });
 });
