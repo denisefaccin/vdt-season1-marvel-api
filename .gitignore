@@ -48,3 +48,6 @@ cypress/screenshots
 #firebase
 .firebase
 firebase-debug.log
+
+# cypress 
+cypress.env.json
