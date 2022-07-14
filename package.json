@@ -1,0 +1,34 @@
+{
+  "name": "vdt-season1-marvel-api-main",
+  "version": "1.0.0",
+  "description": "Projeto de automação na API da Marvel durante a primeira temporada do Viver de teste",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx cypress run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/denisefaccin/vdt-season1-marvel-api.git"
+  },
+  "keywords": [
+    "nodejs",
+    "cypress",
+    "javascript",
+    "api"
+  ],
+  "author": "Denise Faccin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/denisefaccin/vdt-season1-marvel-api/issues"
+  },
+  "homepage": "https://github.com/denisefaccin/vdt-season1-marvel-api#readme",
+  "devDependencies": {
+    "cypress": "^10.0.2",
+    "eslint": "^8.19.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-cypress": "^2.12.1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.4",
+    "eslint-plugin-promise": "^6.0.0"
+  }
+}
